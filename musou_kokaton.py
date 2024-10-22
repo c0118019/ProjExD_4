@@ -93,7 +93,7 @@ class Bird(pg.sprite.Sprite):
             if key_lst[k]:
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
-        if key_lst[pg.K_LSHIF]:
+        if key_lst[pg.K_LSHIFT]:
             self.speed=20
         else:
             self.speed = 10
@@ -263,6 +263,7 @@ def main():
     while True:
         key_lst = pg.key.get_pressed()
         for event in pg.event.get():
+            print(pg.event.get())
             if event.type == pg.QUIT:
                 return 0
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
