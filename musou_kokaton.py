@@ -284,17 +284,19 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beams.add(Beam(bird))
             if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-                if score.value >= 10:
-                    score.value -= 10
+                if score.value >= 200:
+                    score.value -= 200
                     grv.add(Gravity(400))
                     for bomb in pg.sprite.groupcollide(bombs, grv, True, False).keys():
                         exps.add(Explosion(bomb, 50))  # 爆発エフェクト
+                        score.value += 1  # 1点アップ
                     for emy in pg.sprite.groupcollide(emys, grv, True, False).keys():
                         exps.add(Explosion(emy, 100))  # 爆発エフェクト
+                        score.value += 10  # 10点アップ
                     bird.change_img(6, screen)  # こうかとん喜びエフェクト
         screen.blit(bg_img, [0, 0])
 
-        if tmr%100 == 0:  # 200フレームに1回，敵機を出現させる
+        if tmr%200 == 0:  # 200フレームに1回，敵機を出現させる
             emys.add(Enemy())
 
         for emy in emys:
