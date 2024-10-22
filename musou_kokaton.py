@@ -4,6 +4,7 @@ import random
 import sys
 import time
 import pygame as pg
+import keyboard
 
 
 WIDTH = 1100  # ゲームウィンドウの幅
@@ -345,6 +346,22 @@ class Score:
         self.image = self.font.render(f"Score: {self.value}", 0, self.color)
         screen.blit(self.image, self.rect)
 
+class EMP:
+    def __init__(self, enemy, bomb, screen):
+
+    def update(self):
+        if keyboard.is_pressed('e') == True:
+            if score.value > 20:
+                t1 = time.monotonic()
+                score.value -= 20
+                self.image = pg.Surface((1100, 650))
+                pg.draw.rect(self.image, 色タプル(0, 0, 1100, 650))
+                self.image.set_alpha(64)
+                
+                t2 = time.monotonic()
+                if (t2-t1) > 0.05:
+                    break
+    
 
 def main():
     pg.display.set_caption("真！こうかとん無双")
