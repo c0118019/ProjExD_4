@@ -166,6 +166,7 @@ class Beam(pg.sprite.Sprite):
         self.rect.move_ip(self.speed*self.vx, self.speed*self.vy)
         if check_bound(self.rect) != (True, True):
             self.kill()
+            
 
 class Wall(pg.sprite.Sprite):
     """
@@ -197,6 +198,7 @@ class Wall(pg.sprite.Sprite):
         self.life -= 1
         if self.life < 0:
             self.kill()
+
 
 class Explosion(pg.sprite.Sprite):
     """
@@ -298,6 +300,7 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_w and score.value >= 50 and not walls:
                 walls.add(Wall(bird, 400))
                 score.value -= 50
+        
         screen.blit(bg_img, [0, 0])
 
         if tmr%200 == 0:  # 200フレームに1回，敵機を出現させる
