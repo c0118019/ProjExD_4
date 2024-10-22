@@ -176,12 +176,14 @@ class NeoBeam:
         """
         弾幕を生成するための初期化を行う
         引数1 bird:Birdインスタンス
-        引数2 num :弾幕にしようするビームの数 2以上のみ受け付ける
+        引数2 num :弾幕にしようするビームの数 弾幕数は2以上67以下
         """
         self.bird = bird
         self.num = num-1
         if self.num < 1:
             self.num = 1
+        elif self.num > 66:
+            self.num = 66
     
     def gen_beams(self) -> list[Beam]:
         return [Beam(self.bird, float(angle)) for angle in range(-50,+51,round(100/self.num-1))]
