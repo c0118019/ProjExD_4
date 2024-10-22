@@ -8,7 +8,7 @@ import pygame as pg
 
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
-BEAM_NUM = 1  # 弾幕のビーム数
+BEAM_NUM = 67  # 弾幕のビーム数
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -281,8 +281,7 @@ def main():
             if event.type == pg.QUIT:
                 return 0
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                print(event.key == pg.K_LSHIFT)
-                if event.key != pg.K_LSHIFT:
+                if event.mod == pg.KMOD_LSHIFT:
                     beams.add(NeoBeam(bird, BEAM_NUM).gen_beams())
                 else :
                     beams.add(Beam(bird))
