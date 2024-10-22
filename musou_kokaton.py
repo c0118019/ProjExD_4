@@ -8,6 +8,7 @@ import pygame as pg
 
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
+BEAM_NUM = 1  # 弾幕のビーム数
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -141,14 +142,15 @@ class Beam(pg.sprite.Sprite):
     """
     ビームに関するクラス
     """
-    def __init__(self, bird: Bird):
+    def __init__(self, bird: Bird, add_angle:float = 0.0):
         """
         ビーム画像Surfaceを生成する
-        引数 bird：ビームを放つこうかとん
+        引数1 bird：ビームを放つこうかとん
+        引数2 add_angle: float デフォルト値 0.0 追加する角度
         """
         super().__init__()
         self.vx, self.vy = bird.dire
-        angle = math.degrees(math.atan2(-self.vy, self.vx))
+        angle = math.degrees(math.atan2(-self.vy, self.vx)) + add_angle
         self.image = pg.transform.rotozoom(pg.image.load(f"fig/beam.png"), angle, 2.0)
         self.vx = math.cos(math.radians(angle))
         self.vy = -math.sin(math.radians(angle))
@@ -166,6 +168,23 @@ class Beam(pg.sprite.Sprite):
         if check_bound(self.rect) != (True, True):
             self.kill()
 
+class NeoBeam:
+    """
+    弾幕に関わるクラス
+    """
+    def __init__(self, bird:Bird, num:int) -> None:
+        """
+        弾幕を生成するための初期化を行う
+        引数1 bird:Birdインスタンス
+        引数2 num :弾幕にしようするビームの数 2以上のみ受け付ける
+        """
+        self.bird = bird
+        self.num = num-1
+        if self.num < 1:
+            self.num = 1
+    
+    def gen_beams(self) -> list[Beam]:
+        return [Beam(self.bird, float(angle)) for angle in range(-50,+51,round(100/self.num-1))]
 
 class Explosion(pg.sprite.Sprite):
     """
@@ -220,7 +239,7 @@ class Enemy(pg.sprite.Sprite):
         if self.rect.centery > self.bound:
             self.vy = 0
             self.state = "stop"
-        self.rect.move_ip(vx, vy)
+        self.rect.move_ip(self.vx, self.vy)
 
 
 class Score:
@@ -262,7 +281,11 @@ def main():
             if event.type == pg.QUIT:
                 return 0
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                beams.add(Beam(bird))
+                print(event.key == pg.K_LSHIFT)
+                if event.key != pg.K_LSHIFT:
+                    beams.add(NeoBeam(bird, BEAM_NUM).gen_beams())
+                else :
+                    beams.add(Beam(bird))
         screen.blit(bg_img, [0, 0])
 
         if tmr%200 == 0:  # 200フレームに1回，敵機を出現させる
