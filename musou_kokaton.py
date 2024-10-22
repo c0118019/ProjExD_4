@@ -8,7 +8,7 @@ import pygame as pg
 
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
-BEAM_NUM = 67  # 弾幕のビーム数
+BEAM_NUM = 5  # 弾幕のビーム数
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
